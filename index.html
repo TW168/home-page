@@ -166,7 +166,7 @@
 <div class="container">
   <section class="hero">
     <h1 class="wordmark">aitherios<span>.cloud</span></h1>
-    <p class="tagline">Built on the belief that the most powerful forces are the ones you cannot see, only feel</p>
+    <p class="tagline">Built on the belief that the most powerful forces are the ones you cannot see, only feel.</p>
 
     <div class="divider"></div>
 
@@ -307,12 +307,12 @@
 
   const APPS = [
     {
-      name: "LottoEdge",
-      icon: "🎲",
-      description: "Comprehensive lottery analysis platform integrating multiple strategy frameworks with AI-powered predictions and trend analysis.",
+      name: "Murphy Trend",
+      icon: "💹 ",
+      description: "Stock technical analysis based on John Murphy's Technical Analysis of the Financial Markets. Get Murphy Outlook ratings, 30/60/90-day price targets, chart pattern detection, and interactive Plotly charts for any ticker.",
       status: "dev",
-      url: "https://lottoedge.aitherios.cloud",
-      tech: ["FastAPI", "PostgreSQL", "Bootstrap 5", "Ollama"]
+      url: "https://murphy-trend.aitherios.cloud",
+      
     },
     {
       name: "ThoughtJar",
@@ -320,7 +320,7 @@
       description: "Writing application for capturing thoughts, organizing ideas, and generating manuscripts with AI-assisted composition.",
       status: "dev",
       url: "https://thoughtjar.aitherios.cloud",
-      tech: ["FastAPI", "SQLite", "Bootstrap 5", "Markdown"]
+     
     },
     // ADD NEW APPS:
     // { name: "App Name", icon: "🔮", description: "...", status: "planned", url: "https://app.aitherios.cloud", tech: ["FastAPI"] },
@@ -335,7 +335,7 @@
     card.href = app.url;
     card.target = '_blank';
     card.rel = 'noopener noreferrer';
-    card.innerHTML = `<div class="app-card-header"><span class="app-icon">${app.icon}</span><span class="app-status ${s.class}">${s.text}</span></div><h3 class="app-name">${app.name}</h3><p class="app-desc">${app.description}</p><div class="app-tech">${app.tech.map(t => `<span class="tech-tag">${t}</span>`).join('')}</div><span class="app-arrow">→</span>`;
+    card.innerHTML = `<div class="app-card-header"><span class="app-icon">${app.icon}</span><span class="app-status ${s.class}">${s.text}</span></div><h3 class="app-name">${app.name}</h3><p class="app-desc">${app.description}</p><span class="app-arrow">→</span>`;
     grid.appendChild(card);
   });
 
