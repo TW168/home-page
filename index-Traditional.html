@@ -9,10 +9,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Libre+Franklin:wght@200;300;400;500&family=Noto+Sans+TC:wght@200;300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg-deep: #0a0a0f;
-    --bg-mid: #0e0e1a;
-    --bg-card: rgba(18, 18, 30, 0.7);
-    --bg-card-hover: rgba(24, 24, 42, 0.85);
+    --bg-deep: #2c2c55;
+    --bg-mid: #363670;
+    --bg-card: rgba(58, 58, 98, 0.7);
+    --bg-card-hover: rgba(72, 72, 118, 0.85);
     --border-subtle: rgba(126, 184, 218, 0.1);
     --border-hover: rgba(126, 184, 218, 0.25);
     --aether-glow: #7eb8da;
@@ -93,7 +93,7 @@
 
   .greek { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-style: italic; color: var(--aether-warm); margin-bottom: 6px; font-weight: 300; }
 
-  .pronunciation { font-size: 0.8rem; color: var(--text-dim); letter-spacing: 0.15em; margin-bottom: 20px; }
+  .pronunciation { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.15em; margin-bottom: 20px; }
 
   .definition { font-family: 'Noto Sans TC', 'Cormorant Garamond', serif; font-size: clamp(1rem, 2.5vw, 1.2rem); line-height: 2.1; color: var(--text-primary); font-weight: 300; max-width: 680px; }
   .definition em { color: var(--aether-glow); font-style: normal; }
@@ -111,7 +111,7 @@
   .read-more-content.show { max-height: 1600px; opacity: 1; }
 
   .read-more-content .meaning { display: grid; grid-template-columns: 80px 1fr; gap: 24px; align-items: start; margin-bottom: 36px; }
-  .read-more-content .meaning-label { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-dim); padding-top: 5px; text-align: right; font-family: 'Noto Sans TC', sans-serif; }
+  .read-more-content .meaning-label { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--aether-glow); padding-top: 5px; text-align: right; font-family: 'Noto Sans TC', sans-serif; }
   .read-more-content .meaning-text { font-family: 'Noto Sans TC', 'Cormorant Garamond', serif; font-size: 1.05rem; line-height: 2.1; color: var(--text-muted); font-weight: 300; }
   .read-more-content .meaning-text strong { color: var(--text-primary); font-weight: 400; }
   .read-more-content .meaning-text em { color: var(--aether-glow); font-style: normal; }
@@ -147,6 +147,10 @@
   .footer-links a { font-size: 0.72rem; color: var(--text-dim); text-decoration: none; letter-spacing: 0.1em; transition: color 0.3s ease; }
   .footer-links a:hover { color: var(--aether-glow); }
 
+  .lang-switch { position: fixed; top: 24px; right: 32px; z-index: 10; }
+  .lang-switch a { font-size: 1.5rem; text-decoration: none; opacity: 0.6; transition: opacity 0.3s ease, transform 0.2s ease; display: inline-block; }
+  .lang-switch a:hover { opacity: 1; transform: scale(1.15); }
+
   @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
   @media (max-width: 600px) {
@@ -160,6 +164,7 @@
 </head>
 <body>
 
+<div class="lang-switch"><a href="index.html" title="English">🇺🇸</a></div>
 <div class="atmosphere"></div>
 <div class="stars" id="stars"></div>
 
@@ -266,7 +271,7 @@
     <span class="footer-text">© 2026 Tony Wei</span>
     <div class="footer-links">
       <a href="https://github.com" target="_blank">GitHub</a>
-      <a href="mailto:admin@aitherios.cloud">聯絡</a>
+      <a href="mailto:tonywei168@gmail.com">聯絡</a>
     </div>
   </footer>
 </div>
@@ -311,20 +316,18 @@
 
   const APPS = [
     {
-      name: "LottoEdge",
-      icon: "🎲",
-      description: "綜合彩票分析平台，整合多種策略框架，搭配 AI 驅動的預測與趨勢分析。",
+      name: "Murphy Trend",
+      icon: "💹 ",
+      description: "基於約翰·墨菲《金融市場技術分析》的股票技術分析工具。提供墨菲展望評級、30/60/90 天價格目標、圖表形態偵測，以及任意股票代碼的互動式 Plotly 圖表。",
       status: "dev",
-      url: "https://lottoedge.aitherios.cloud",
-      tech: ["FastAPI", "PostgreSQL", "Bootstrap 5", "Ollama"]
+      url: "https://murphy-trend.aitherios.cloud",
     },
     {
-      name: "ThoughtJar",
-      icon: "✍️",
-      description: "寫作應用程式，用於捕捉靈感、組織想法，並透過 AI 輔助生成書稿。",
+      name: "Lotto Edge",
+      icon: "🎰",
+      description: "綜合彩券分析平台，整合多種策略框架，搭配 AI 驅動的預測、歷史趨勢分析與規律偵測。",
       status: "dev",
-      url: "https://thoughtjar.aitherios.cloud",
-      tech: ["FastAPI", "SQLite", "Bootstrap 5", "Markdown"]
+      url: "https://lottoedge.aitherios.cloud",
     },
   ];
 
@@ -337,7 +340,7 @@
     card.href = app.url;
     card.target = '_blank';
     card.rel = 'noopener noreferrer';
-    card.innerHTML = `<div class="app-card-header"><span class="app-icon">${app.icon}</span><span class="app-status ${s.class}">${s.text}</span></div><h3 class="app-name">${app.name}</h3><p class="app-desc">${app.description}</p><div class="app-tech">${app.tech.map(t => `<span class="tech-tag">${t}</span>`).join('')}</div><span class="app-arrow">→</span>`;
+    card.innerHTML = `<div class="app-card-header"><span class="app-icon">${app.icon}</span><span class="app-status ${s.class}">${s.text}</span></div><h3 class="app-name">${app.name}</h3><p class="app-desc">${app.description}</p><span class="app-arrow">→</span>`;
     grid.appendChild(card);
   });
 

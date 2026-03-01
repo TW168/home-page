@@ -9,10 +9,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Libre+Franklin:wght@200;300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg-deep: #0a0a0f;
-    --bg-mid: #0e0e1a;
-    --bg-card: rgba(18, 18, 30, 0.7);
-    --bg-card-hover: rgba(24, 24, 42, 0.85);
+    --bg-deep: #2c2c55;
+    --bg-mid: #363670;
+    --bg-card: rgba(58, 58, 98, 0.7);
+    --bg-card-hover: rgba(72, 72, 118, 0.85);
     --border-subtle: rgba(126, 184, 218, 0.1);
     --border-hover: rgba(126, 184, 218, 0.25);
     --aether-glow: #7eb8da;
@@ -93,7 +93,7 @@
 
   .greek { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-style: italic; color: var(--aether-warm); margin-bottom: 6px; font-weight: 300; }
 
-  .pronunciation { font-size: 0.8rem; color: var(--text-dim); letter-spacing: 0.15em; margin-bottom: 20px; }
+  .pronunciation { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.15em; margin-bottom: 20px; }
 
   .definition { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.15rem, 2.5vw, 1.4rem); line-height: 1.9; color: var(--text-primary); font-weight: 300; max-width: 680px; }
   .definition em { color: var(--aether-glow); font-style: italic; }
@@ -111,7 +111,7 @@
   .read-more-content.show { max-height: 1200px; opacity: 1; }
 
   .read-more-content .meaning { display: grid; grid-template-columns: 100px 1fr; gap: 24px; align-items: start; margin-bottom: 36px; }
-  .read-more-content .meaning-label { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-dim); padding-top: 5px; text-align: right; }
+  .read-more-content .meaning-label { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--aether-glow); padding-top: 5px; text-align: right; }
   .read-more-content .meaning-text { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; line-height: 1.85; color: var(--text-muted); font-weight: 300; }
   .read-more-content .meaning-text strong { color: var(--text-primary); font-weight: 400; }
   .read-more-content .meaning-text em { color: var(--aether-glow); font-style: italic; }
@@ -147,6 +147,10 @@
   .footer-links a { font-size: 0.72rem; color: var(--text-dim); text-decoration: none; letter-spacing: 0.1em; transition: color 0.3s ease; }
   .footer-links a:hover { color: var(--aether-glow); }
 
+  .lang-switch { position: fixed; top: 24px; right: 32px; z-index: 10; }
+  .lang-switch a { font-size: 1.5rem; text-decoration: none; opacity: 0.6; transition: opacity 0.3s ease, transform 0.2s ease; display: inline-block; }
+  .lang-switch a:hover { opacity: 1; transform: scale(1.15); }
+
   @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
   @media (max-width: 600px) {
@@ -160,6 +164,7 @@
 </head>
 <body>
 
+<div class="lang-switch"><a href="index-Traditional.html" title="繁體中文">🇹🇼</a></div>
 <div class="atmosphere"></div>
 <div class="stars" id="stars"></div>
 
@@ -262,7 +267,7 @@
     <span class="footer-text">© 2026 Tony Wei</span>
     <div class="footer-links">
       <a href="https://github.com" target="_blank">GitHub</a>
-      <a href="mailto:admin@aitherios.cloud">Contact</a>
+      <a href="mailto:tonywei168@gmail.com">Contact</a>
     </div>
   </footer>
 </div>
