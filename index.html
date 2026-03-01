@@ -1,0 +1,356 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>aitherios.cloud</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Libre+Franklin:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0a0a0f;
+    --bg-mid: #0e0e1a;
+    --bg-card: rgba(18, 18, 30, 0.7);
+    --bg-card-hover: rgba(24, 24, 42, 0.85);
+    --border-subtle: rgba(126, 184, 218, 0.1);
+    --border-hover: rgba(126, 184, 218, 0.25);
+    --aether-glow: #7eb8da;
+    --aether-light: #c4dff6;
+    --aether-warm: #d4a574;
+    --status-live: #6ecf8e;
+    --status-dev: #d4a574;
+    --status-planned: #8a8697;
+    --text-primary: #e8e4df;
+    --text-muted: #8a8697;
+    --text-dim: #5a5668;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  .atmosphere { position: fixed; inset: 0; z-index: 0; overflow: hidden; }
+
+  .atmosphere::before {
+    content: '';
+    position: absolute;
+    top: -40%; left: -20%; width: 140%; height: 140%;
+    background: 
+      radial-gradient(ellipse 600px 400px at 25% 20%, rgba(126, 184, 218, 0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 500px 500px at 75% 60%, rgba(212, 165, 116, 0.04) 0%, transparent 70%),
+      radial-gradient(ellipse 800px 300px at 50% 80%, rgba(126, 184, 218, 0.03) 0%, transparent 70%);
+    animation: drift 30s ease-in-out infinite alternate;
+  }
+
+  @keyframes drift {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(30px, -20px) rotate(1deg); }
+  }
+
+  .stars { position: fixed; inset: 0; z-index: 0; }
+
+  .star {
+    position: absolute; width: 2px; height: 2px;
+    background: var(--aether-light); border-radius: 50%; opacity: 0;
+    animation: twinkle var(--duration) ease-in-out infinite;
+    animation-delay: var(--delay);
+  }
+
+  @keyframes twinkle { 0%, 100% { opacity: 0; } 50% { opacity: var(--max-opacity); } }
+
+  .container { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 40px; }
+
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+
+  .wordmark {
+    font-family: 'Cormorant Garamond', serif; font-weight: 300;
+    font-size: clamp(3.2rem, 8vw, 5.5rem); letter-spacing: 0.25em;
+    text-transform: lowercase; color: var(--aether-light); margin-bottom: 8px;
+    opacity: 0; animation: fadeUp 1.5s ease-out 0.3s forwards;
+    text-shadow: 0 0 80px rgba(126, 184, 218, 0.2);
+  }
+
+  .wordmark span { color: var(--text-dim); font-weight: 300; }
+
+  .tagline {
+    font-family: 'Libre Franklin', sans-serif; font-weight: 200;
+    font-size: clamp(0.7rem, 1.8vw, 0.85rem); letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--text-muted); margin-bottom: 60px;
+    opacity: 0; animation: fadeUp 1.5s ease-out 0.6s forwards;
+    max-width: 600px; line-height: 1.8;
+  }
+
+  .divider { width: 60px; height: 1px; background: linear-gradient(90deg, var(--aether-glow), transparent); margin-bottom: 50px; opacity: 0; animation: fadeUp 1.5s ease-out 0.8s forwards; }
+
+  .etymology { margin-bottom: 50px; opacity: 0; animation: fadeUp 1.5s ease-out 1s forwards; }
+
+  .greek { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-style: italic; color: var(--aether-warm); margin-bottom: 6px; font-weight: 300; }
+
+  .pronunciation { font-size: 0.8rem; color: var(--text-dim); letter-spacing: 0.15em; margin-bottom: 20px; }
+
+  .definition { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.15rem, 2.5vw, 1.4rem); line-height: 1.9; color: var(--text-primary); font-weight: 300; max-width: 680px; }
+  .definition em { color: var(--aether-glow); font-style: italic; }
+
+  .speaker-btn { background: none; border: none; cursor: pointer; font-size: 1rem; vertical-align: middle; margin-left: 6px; opacity: 0.5; transition: opacity 0.3s ease, transform 0.2s ease; padding: 2px 4px; }
+  .speaker-btn:hover { opacity: 1; transform: scale(1.15); }
+  .speaker-btn.playing { opacity: 1; animation: pulse-speaker 0.6s ease-in-out infinite alternate; }
+  @keyframes pulse-speaker { from { transform: scale(1); } to { transform: scale(1.2); } }
+
+  .read-more-btn { background: none; border: 1px solid var(--border-subtle); color: var(--aether-glow); font-family: 'Libre Franklin', sans-serif; font-size: 0.75rem; font-weight: 300; letter-spacing: 0.2em; padding: 8px 20px; border-radius: 24px; cursor: pointer; margin-top: 24px; transition: all 0.4s ease; display: inline-block; }
+  .read-more-btn:hover { border-color: var(--aether-glow); background: rgba(126, 184, 218, 0.06); transform: translateY(-1px); }
+  .read-more-btn.expanded { border-color: var(--text-dim); color: var(--text-dim); }
+
+  .read-more-content { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.8s ease, opacity 0.6s ease; }
+  .read-more-content.show { max-height: 1200px; opacity: 1; }
+
+  .read-more-content .meaning { display: grid; grid-template-columns: 100px 1fr; gap: 24px; align-items: start; margin-bottom: 36px; }
+  .read-more-content .meaning-label { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-dim); padding-top: 5px; text-align: right; }
+  .read-more-content .meaning-text { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; line-height: 1.85; color: var(--text-muted); font-weight: 300; }
+  .read-more-content .meaning-text strong { color: var(--text-primary); font-weight: 400; }
+  .read-more-content .meaning-text em { color: var(--aether-glow); font-style: italic; }
+
+  .apps-section { padding: 40px 0 100px; opacity: 0; animation: fadeUp 1.5s ease-out 1.3s forwards; }
+  .section-header { display: flex; align-items: center; gap: 20px; margin-bottom: 40px; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 300; color: var(--text-primary); letter-spacing: 0.1em; }
+  .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border-subtle), transparent); }
+
+  .apps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+
+  .app-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 28px; text-decoration: none; color: inherit; transition: all 0.4s ease; position: relative; overflow: hidden; }
+  .app-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--aether-glow), transparent); opacity: 0; transition: opacity 0.4s ease; }
+  .app-card:hover { background: var(--bg-card-hover); border-color: var(--border-hover); transform: translateY(-2px); }
+  .app-card:hover::before { opacity: 0.6; }
+
+  .app-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+  .app-icon { font-size: 1.6rem; line-height: 1; }
+  .app-status { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; font-weight: 400; }
+  .status-live { color: var(--status-live); background: rgba(110, 207, 142, 0.1); border: 1px solid rgba(110, 207, 142, 0.2); }
+  .status-dev { color: var(--status-dev); background: rgba(212, 165, 116, 0.1); border: 1px solid rgba(212, 165, 116, 0.2); }
+  .status-planned { color: var(--status-planned); background: rgba(138, 134, 151, 0.1); border: 1px solid rgba(138, 134, 151, 0.2); }
+  .app-name { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; color: var(--aether-light); margin-bottom: 8px; }
+  .app-desc { font-size: 0.85rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 16px; }
+  .app-tech { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tech-tag { font-size: 0.65rem; letter-spacing: 0.1em; color: var(--text-dim); background: rgba(90, 86, 104, 0.15); border: 1px solid rgba(90, 86, 104, 0.2); padding: 3px 8px; border-radius: 4px; }
+  .app-arrow { position: absolute; bottom: 28px; right: 28px; color: var(--text-dim); font-size: 1rem; transition: all 0.3s ease; }
+  .app-card:hover .app-arrow { color: var(--aether-glow); transform: translateX(3px); }
+
+  .footer { padding: 30px 0; border-top: 1px solid rgba(90, 86, 104, 0.15); display: flex; justify-content: space-between; align-items: center; opacity: 0; animation: fadeUp 1.5s ease-out 1.6s forwards; margin-bottom: 40px; }
+  .footer-text { font-size: 0.72rem; color: var(--text-dim); letter-spacing: 0.1em; }
+  .footer-links { display: flex; gap: 20px; }
+  .footer-links a { font-size: 0.72rem; color: var(--text-dim); text-decoration: none; letter-spacing: 0.1em; transition: color 0.3s ease; }
+  .footer-links a:hover { color: var(--aether-glow); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 600px) {
+    .container { padding: 0 24px; }
+    .read-more-content .meaning { grid-template-columns: 1fr; gap: 6px; }
+    .read-more-content .meaning-label { text-align: left; }
+    .apps-grid { grid-template-columns: 1fr; }
+    .footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="atmosphere"></div>
+<div class="stars" id="stars"></div>
+
+<div class="container">
+  <section class="hero">
+    <h1 class="wordmark">aitherios<span>.cloud</span></h1>
+    <p class="tagline">Built on the belief that the most powerful forces are the ones you cannot see, only feel</p>
+
+    <div class="divider"></div>
+
+    <section class="etymology">
+      <p class="greek">Αἰθέριος — aithérios <button class="speaker-btn" onclick="speakAitherios()" title="Listen to pronunciation">🔊</button></p>
+      <p class="pronunciation">/ai.ˈtʰe.ri.os/ — "ethereal, celestial, of the upper air"</p>
+      <p class="definition">
+        In the ancient world, <em>aitherios</em> described all that was celestial — 
+        the quality of belonging to the heavens, of being touched by divine light. 
+        Derived from <em>aithēr</em>, the luminous substance the gods breathed, 
+        aitherios was not the element itself, but the <em>essence</em> of it: 
+        radiant, eternal, and beyond mortal reach.
+      </p>
+      <button class="read-more-btn" id="readMoreBtn" onclick="toggleReadMore()">Read More ↓</button>
+      <div class="read-more-content" id="readMoreContent">
+        <div class="meaning" style="margin-top: 30px;">
+          <span class="meaning-label">Origin</span>
+          <p class="meaning-text">
+            <strong>From αἴθειν — "to burn, to shine."</strong> The word itself carries fire in its roots. 
+            The ancient Greeks believed that above the terrestrial air breathed by mortals, 
+            there existed a higher, purer substance — luminous and incorruptible — 
+            that the gods alone could breathe. This was <em>aithēr</em>, the radiant upper sky.
+          </p>
+        </div>
+        <div class="meaning">
+          <span class="meaning-label">Philosophy</span>
+          <p class="meaning-text">
+            <strong>Aristotle's quintessence.</strong> While Plato hinted at its existence, 
+            it was Aristotle who formalized aether as the fifth element — <em>quinta essentia</em> — 
+            distinct from earth, water, fire, and air. Unlike the four terrestrial elements 
+            that moved in straight lines and decayed, aether moved in perfect circles 
+            and was eternal, composing the celestial bodies themselves.
+          </p>
+        </div>
+        <div class="meaning">
+          <span class="meaning-label">Physics</span>
+          <p class="meaning-text">
+            <strong>The luminiferous aether.</strong> By the 19th century, physicists reimagined aether 
+            as the invisible medium through which light waves propagated across the void — 
+            the fabric of space itself. The Michelson-Morley experiment of 1887 found no trace of it, 
+            paving the way for Einstein's relativity. Yet the intuition endured: 
+            that space is not truly empty, but alive with unseen forces.
+          </p>
+        </div>
+        <div class="meaning">
+          <span class="meaning-label">Legacy</span>
+          <p class="meaning-text">
+            <strong>Αἰθέριος — the adjective, the essence.</strong> While <em>aithēr</em> names the substance, 
+            <em>aithérios</em> describes what partakes of it — the ethereal, the celestial, 
+            that which belongs to the heavens. It is not the thing itself, 
+            but the quality of being touched by the divine. 
+            This is what <em>aitherios.cloud</em> carries in its name.
+          </p>
+        </div>
+        <div class="meaning">
+          <span class="meaning-label">Myth</span>
+          <p class="meaning-text">
+            <strong>The fifth element.</strong> While earth, water, fire, and air composed the mortal world, 
+            aether was the divine substance — incorruptible, eternal, and ever-luminous — 
+            that filled the celestial sphere where gods breathed and stars burned.
+          </p>
+        </div>
+        <div class="meaning">
+          <span class="meaning-label">Science</span>
+          <p class="meaning-text">
+            <strong>The invisible medium.</strong> For centuries, physicists believed aether permeated all of space — 
+            an unseen fabric through which light waves rippled across the cosmos. 
+            Though disproven, the idea endures: that something connects everything.
+          </p>
+        </div>
+        <div class="meaning">
+          <span class="meaning-label">Now</span>
+          <p class="meaning-text">
+            <strong>The cloud reimagined.</strong> Where ancient aether was the medium between heaven and earth, 
+            the modern cloud is the medium between thought and creation. 
+            Invisible, omnipresent, and luminous with possibility.
+          </p>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- APPLICATIONS -->
+  <section class="apps-section">
+    <div class="section-header">
+      <h2 class="section-title">Applications</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="apps-grid" id="apps-grid"></div>
+  </section>
+
+  <footer class="footer">
+    <span class="footer-text">© 2026 Tony Wei</span>
+    <div class="footer-links">
+      <a href="https://github.com" target="_blank">GitHub</a>
+      <a href="mailto:admin@aitherios.cloud">Contact</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+  function speakAitherios() {
+    const btn = document.querySelector('.speaker-btn');
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance('αιθέριος');
+      utterance.rate = 0.75;
+      utterance.pitch = 1;
+      utterance.lang = 'el-GR';
+      const voices = window.speechSynthesis.getVoices();
+      const preferred = voices.find(v => v.lang.startsWith('el')) || voices.find(v => v.lang.startsWith('en'));
+      if (preferred) utterance.voice = preferred;
+      btn.classList.add('playing');
+      utterance.onend = () => btn.classList.remove('playing');
+      utterance.onerror = () => btn.classList.remove('playing');
+      window.speechSynthesis.speak(utterance);
+    }
+  }
+
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.getVoices();
+    window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+  }
+
+  function toggleReadMore() {
+    const content = document.getElementById('readMoreContent');
+    const btn = document.getElementById('readMoreBtn');
+    if (content.classList.contains('show')) {
+      content.classList.remove('show');
+      btn.classList.remove('expanded');
+      btn.textContent = 'Read More \u2193';
+    } else {
+      content.classList.add('show');
+      btn.classList.add('expanded');
+      btn.textContent = 'Read Less \u2191';
+    }
+  }
+
+  const APPS = [
+    {
+      name: "LottoEdge",
+      icon: "🎲",
+      description: "Comprehensive lottery analysis platform integrating multiple strategy frameworks with AI-powered predictions and trend analysis.",
+      status: "dev",
+      url: "https://lottoedge.aitherios.cloud",
+      tech: ["FastAPI", "PostgreSQL", "Bootstrap 5", "Ollama"]
+    },
+    {
+      name: "ThoughtJar",
+      icon: "✍️",
+      description: "Writing application for capturing thoughts, organizing ideas, and generating manuscripts with AI-assisted composition.",
+      status: "dev",
+      url: "https://thoughtjar.aitherios.cloud",
+      tech: ["FastAPI", "SQLite", "Bootstrap 5", "Markdown"]
+    },
+    // ADD NEW APPS:
+    // { name: "App Name", icon: "🔮", description: "...", status: "planned", url: "https://app.aitherios.cloud", tech: ["FastAPI"] },
+  ];
+
+  const statusLabels = { live: { text: "Live", class: "status-live" }, dev: { text: "In Development", class: "status-dev" }, planned: { text: "Planned", class: "status-planned" } };
+  const grid = document.getElementById('apps-grid');
+  APPS.forEach(app => {
+    const s = statusLabels[app.status] || statusLabels.planned;
+    const card = document.createElement('a');
+    card.className = 'app-card';
+    card.href = app.url;
+    card.target = '_blank';
+    card.rel = 'noopener noreferrer';
+    card.innerHTML = `<div class="app-card-header"><span class="app-icon">${app.icon}</span><span class="app-status ${s.class}">${s.text}</span></div><h3 class="app-name">${app.name}</h3><p class="app-desc">${app.description}</p><div class="app-tech">${app.tech.map(t => `<span class="tech-tag">${t}</span>`).join('')}</div><span class="app-arrow">→</span>`;
+    grid.appendChild(card);
+  });
+
+  const starsContainer = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.setProperty('--duration', (3 + Math.random() * 6) + 's');
+    star.style.setProperty('--delay', Math.random() * 5 + 's');
+    star.style.setProperty('--max-opacity', (0.15 + Math.random() * 0.4).toFixed(2));
+    if (Math.random() > 0.7) { star.style.width = '3px'; star.style.height = '3px'; }
+    starsContainer.appendChild(star);
+  }
+</script>
+</body>
+</html>
