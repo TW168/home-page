@@ -148,8 +148,9 @@
   .footer-links a:hover { color: var(--aether-glow); }
 
   .lang-switch { position: fixed; top: 24px; right: 32px; z-index: 10; }
-  .lang-switch a { font-size: 1.5rem; text-decoration: none; opacity: 1; transition: opacity 0.3s ease, transform 0.2s ease; display: inline-block; }
+  .lang-switch a { text-decoration: none; opacity: 1; transition: opacity 0.3s ease, transform 0.2s ease; display: inline-block; }
   .lang-switch a:hover { opacity: 1; transform: scale(1.15); }
+  .lang-switch img { width: 32px; height: 24px; display: block; border-radius: 3px; box-shadow: 0 1px 4px rgba(0,0,0,0.4); }
 
   @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -164,7 +165,7 @@
 </head>
 <body>
 
-<div class="lang-switch"><a href="index.html" title="English">🇺🇸</a></div>
+<div class="lang-switch"><a href="index.html" title="English"><img src="https://flagcdn.com/32x24/us.png" srcset="https://flagcdn.com/64x48/us.png 2x" alt="English"></a></div>
 <div class="atmosphere"></div>
 <div class="stars" id="stars"></div>
 
@@ -176,7 +177,7 @@
     <div class="divider"></div>
 
     <section class="etymology">
-      <p class="greek">Αἰθέριος — aithérios <button class="speaker-btn" onclick="speakAitherios()" title="聆聽發音">🔊</button></p>
+      <p class="greek">Αἰθέριος — aithérios <button class="speaker-btn" onclick="document.getElementById('aitherios-audio').play()" title="聆聽發音">🔊</button><audio id="aitherios-audio" src="aitherios.mp3"></audio></p>
       <p class="pronunciation">/ai.ˈtʰe.ri.os/ —「空靈的、天界的、屬於上空的」</p>
       <p class="definition">
         在古代世界中，<em>aitherios</em> 用以描述一切屬於天界之物——
