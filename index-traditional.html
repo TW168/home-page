@@ -103,12 +103,7 @@
   .speaker-btn.playing { opacity: 1; animation: pulse-speaker 0.6s ease-in-out infinite alternate; }
   @keyframes pulse-speaker { from { transform: scale(1); } to { transform: scale(1.2); } }
 
-  .read-more-btn { background: none; border: 1px solid var(--border-subtle); color: var(--aether-glow); font-family: 'Noto Sans TC', sans-serif; font-size: 0.75rem; font-weight: 300; letter-spacing: 0.2em; padding: 8px 20px; border-radius: 24px; cursor: pointer; margin-top: 24px; transition: all 0.4s ease; display: inline-block; }
-  .read-more-btn:hover { border-color: var(--aether-glow); background: rgba(126, 184, 218, 0.06); transform: translateY(-1px); }
-  .read-more-btn.expanded { border-color: var(--text-dim); color: var(--text-dim); }
-
-  .read-more-content { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.8s ease, opacity 0.6s ease; }
-  .read-more-content.show { opacity: 1; }
+  .read-more-content { max-height: none; overflow: visible; opacity: 1; }
 
   .read-more-content .meaning { display: grid; grid-template-columns: 80px 1fr; gap: 24px; align-items: start; margin-bottom: 36px; }
   .read-more-content .meaning-label { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--aether-glow); padding-top: 5px; text-align: right; font-family: 'Noto Sans TC', sans-serif; }
@@ -186,7 +181,6 @@
         aitherios 並非那元素本身，而是其<em>本質</em>——
         光耀、永恆，且超越凡人所及。
       </p>
-      <button class="read-more-btn" id="readMoreBtn" onclick="toggleReadMore()">閱讀更多 ↓</button>
       <div class="read-more-content" id="readMoreContent">
         <div class="meaning" style="margin-top: 30px;">
           <span class="meaning-label">詞源</span>
@@ -197,6 +191,7 @@
             唯有神祇得以呼吸。這便是 <em>aithēr</em>，光耀的上層天空。
           </p>
         </div>
+        <!--
         <div class="meaning">
           <span class="meaning-label">哲學</span>
           <p class="meaning-text">
@@ -247,6 +242,7 @@
             有某種力量將一切連結。
           </p>
         </div>
+      -->
         <div class="meaning">
           <span class="meaning-label">此刻</span>
           <p class="meaning-text">
@@ -300,29 +296,6 @@
     window.speechSynthesis.getVoices();
     window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
   }
-
-  function toggleReadMore() {
-    const content = document.getElementById('readMoreContent');
-    const btn = document.getElementById('readMoreBtn');
-    if (content.classList.contains('show')) {
-      content.classList.remove('show');
-      content.style.maxHeight = '0px';
-      btn.classList.remove('expanded');
-      btn.textContent = '閱讀更多 \u2193';
-    } else {
-      content.classList.add('show');
-      content.style.maxHeight = content.scrollHeight + 'px';
-      btn.classList.add('expanded');
-      btn.textContent = '收起 \u2191';
-    }
-  }
-
-  window.addEventListener('resize', () => {
-    const content = document.getElementById('readMoreContent');
-    if (content.classList.contains('show')) {
-      content.style.maxHeight = content.scrollHeight + 'px';
-    }
-  });
 
   const APPS = [
     {
