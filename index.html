@@ -108,7 +108,7 @@
   .read-more-btn.expanded { border-color: var(--text-dim); color: var(--text-dim); }
 
   .read-more-content { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.8s ease, opacity 0.6s ease; }
-  .read-more-content.show { max-height: 1200px; opacity: 1; }
+  .read-more-content.show { opacity: 1; }
 
   .read-more-content .meaning { display: grid; grid-template-columns: 100px 1fr; gap: 24px; align-items: start; margin-bottom: 36px; }
   .read-more-content .meaning-label { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--aether-glow); padding-top: 5px; text-align: right; }
@@ -301,14 +301,23 @@
     const btn = document.getElementById('readMoreBtn');
     if (content.classList.contains('show')) {
       content.classList.remove('show');
+      content.style.maxHeight = '0px';
       btn.classList.remove('expanded');
       btn.textContent = 'Read More \u2193';
     } else {
       content.classList.add('show');
+      content.style.maxHeight = content.scrollHeight + 'px';
       btn.classList.add('expanded');
       btn.textContent = 'Read Less \u2191';
     }
   }
+
+  window.addEventListener('resize', () => {
+    const content = document.getElementById('readMoreContent');
+    if (content.classList.contains('show')) {
+      content.style.maxHeight = content.scrollHeight + 'px';
+    }
+  });
 
   const APPS = [
     {
