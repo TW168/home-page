@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero">
+    <h2>Operations Dashboard</h2>
+</section>
+
+<section class="map-grid">
+    {% for panel in weather_panels %}
+    <article class="panel weather-panel">
+        <header>
+            <h3>{{ panel.title }}</h3>
+            <span class="badge">Daily Scrape</span>
+        </header>
+        <img src="{{ panel.image_url }}" alt="{{ panel.title }}" class="map-image" loading="lazy" />
+        <p>{{ panel.note }}</p>
+        <a href="{{ panel.source_url }}" class="source-link" target="_blank" rel="noreferrer">Source: {{ panel.source_label }}</a>
+    </article>
+    {% endfor %}
+</section>
+
+<section class="map-grid">
+    <article class="panel weather-panel">
+        <header>
+            <h3>{{ gas_scrape.title }}</h3>
+            <span class="badge">{{ gas_scrape.status }}</span>
+        </header>
+        <p>{{ gas_scrape.note }}</p>
+        <div class="chart-wrap">
+            <canvas id="gas-price-chart" aria-label="Gas price trends" role="img"></canvas>
+        </div>
+    </article>
+</section>
+
+{{ gas_chart_labels|json_script:"gas-chart-labels" }}
+{{ gas_chart_datasets|json_script:"gas-chart-datasets" }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script>
+    (function () {
+        const labelsNode = document.getElementById("gas-chart-labels");
+        const datasetsNode = document.getElementById("gas-chart-datasets");
+        const canvas = document.getElementById("gas-price-chart");
+        if (!labelsNode || !datasetsNode || !canvas) {
+            return;
+        }
+
+        const labels = JSON.parse(labelsNode.textContent || "[]");
+        const datasets = JSON.parse(datasetsNode.textContent || "[]");
+        if (!labels.length || !datasets.length) {
+            return;
+        }
+
+        new Chart(canvas, {
+            type: "line",
+            data: {
+                labels,
+                datasets,
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: "index",
+                    intersect: false,
+                },
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: (value) => "$" + Number(value).toFixed(3),
+                        },
+                        title: {
+                            display: true,
+                            text: "Price (USD)",
+                        },
+                    },
+                },
+                plugins: {
+                    legend: {
+                        position: "bottom",
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => `${ctx.dataset.label}: $${Number(ctx.parsed.y).toFixed(3)}`,
+                        },
+                    },
+                },
+            },
+        });
+    })();
+</script>
+{% endblock %}

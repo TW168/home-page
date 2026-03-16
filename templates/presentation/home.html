@@ -1,0 +1,294 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if card %}
+<section class="presentation-toolbar">
+    <div class="presentation-heading-wrap">
+        <h2 class="presentation-page-title">Presentation</h2>
+        <p class="presentation-meta-line">
+            Product Group: {{ card.product_group }}
+            <span>|</span>
+            Site: {{ card.site }}
+            <span>|</span>
+            Date: {{ card.report_date|date:"F j, Y" }}
+            <span>|</span>
+            Generated: {{ card.generated_time|time:"h:i A" }}
+        </p>
+    </div>
+    <div class="presentation-actions no-print">
+        <button type="button" class="print-btn" onclick="window.print()">Print Page</button>
+    </div>
+</section>
+
+<section class="presentation-grid">
+    <article class="panel presentation-card presentation-card--staff">
+        <div class="presentation-card-header">
+            <span class="card-header-icon">👥</span>
+            <h3>{{ card.title }}</h3>
+        </div>
+
+        <div class="presentation-card-body">
+            <div class="staff-columns">
+                <section class="staff-section">
+                    <h4 class="section-heading">Headcount</h4>
+                    <ul class="staff-list">
+                        <li>👔 {{ card.supervisors }} Supervisor</li>
+                        <li>👩‍💼 {{ card.assistant_supervisors }} Asst. Supervisor</li>
+                        <li>🖥️ {{ card.office_staff }} Office Staff</li>
+                        <li>👷 {{ card.warehouse_leads }} Warehouse Lead</li>
+                        <li>🚜 {{ card.forklift_drivers }} Forklift Drivers</li>
+                    </ul>
+                </section>
+
+                <section class="staff-section">
+                    <h4 class="section-heading">Work Hours · Warehouse</h4>
+                    <ul class="staff-list">
+                        <li>🗓️ {{ card.warehouse_workdays }}</li>
+                        <li>🌤️ Day: {{ card.warehouse_day_shift }}</li>
+                        <li style="margin-top:0.6rem;font-size:0.9rem;">🌙 Night: {{ card.warehouse_night_shift }}</li>
+                    </ul>
+                </section>
+
+                <section class="staff-section">
+                    <h4 class="section-heading">Work Hours · Shipping</h4>
+                    <ul class="staff-list">
+                        <li>🗓️ {{ card.shipping_workdays }}</li>
+                        <li>🌤️ Day: {{ card.shipping_day_shift }}</li>
+                        <li style="margin-top:0.6rem;font-size:0.9rem;">🌙 Night: {{ card.shipping_night_shift }}</li>
+                    </ul>
+                </section>
+            </div>
+
+            <p class="staff-note">📌 {{ card.shipping_note }}</p>
+        </div>
+    </article>
+
+    {% if safety_card %}
+    <article class="panel presentation-card presentation-card--safety">
+        <div class="presentation-card-header">
+            <span class="card-header-icon">🛡️</span>
+            <h3>{{ safety_card.title }}</h3>
+        </div>
+
+        <div class="presentation-card-body safety-content">
+            <div class="safety-mark">🛡️</div>
+            <p class="safety-kicker">Since {{ safety_card.since_year }}</p>
+            <p class="safety-organization">{{ safety_card.organization_name }}</p>
+            <div class="safety-headline-wrap">
+                <p class="safety-headline">✔ {{ safety_card.headline }}</p>
+            </div>
+            <p class="safety-body">{{ safety_card.body }}</p>
+        </div>
+    </article>
+    {% endif %}
+</section>
+
+<section class="presentation-grid">
+    {% if freight_analytics %}
+    <article class="panel presentation-card presentation-card--freight">
+        <div class="presentation-card-header">
+            <span class="card-header-icon">📦</span>
+            <h3>{{ card.site }} {{ card.product_group }} Freight · Monthly Avg Comparison</h3>
+            <span class="card-header-badge">2018–2025 avg vs 2026</span>
+        </div>
+        <div class="presentation-card-body freight-body">
+            <div class="freight-metrics-grid">
+                <div class="freight-metric">
+                    <div class="metric-label">FRT AMT ($)</div>
+                    <div class="metric-label-sub">Monthly Avg (hist.)</div>
+                    <div class="metric-value">${{ freight_analytics.hist_avg_frt_amt|floatformat:2 }}M</div>
+                    <div class="metric-label-sub">YTD Monthly Avg (2 mo.)</div>
+                    <div class="metric-value-ytd">${{ freight_analytics.ytd_frt_amt|floatformat:2 }}M</div>
+                    <div class="metric-total">total: ${{ freight_analytics.ytd_frt_amt|floatformat:2 }}M</div>
+                    {% if freight_analytics.frt_amt_delta_pct > 0 %}
+                        <div class="metric-delta delta-positive">▲ {{ freight_analytics.frt_amt_delta_pct|floatformat:1 }}% better</div>
+                    {% else %}
+                        <div class="metric-delta delta-negative">▼ {{ freight_analytics.frt_amt_delta_pct|floatformat:1 }}% worse</div>
+                    {% endif %}
+                </div>
+                <div class="freight-metric">
+                    <div class="metric-label">TTL W. (LBS)</div>
+                    <div class="metric-label-sub">Monthly Avg (hist.)</div>
+                    <div class="metric-value">{{ freight_analytics.hist_avg_ttl_lbs|floatformat:2 }}M lbs</div>
+                    <div class="metric-label-sub">YTD Monthly Avg (2 mo.)</div>
+                    <div class="metric-value-ytd">{{ freight_analytics.ytd_ttl_lbs|floatformat:2 }}M lbs</div>
+                    <div class="metric-total">total: {{ freight_analytics.ytd_ttl_lbs|floatformat:2 }}M lbs</div>
+                    {% if freight_analytics.lbs_delta_pct < 0 %}
+                        <div class="metric-delta delta-negative">▼ {{ freight_analytics.lbs_delta_pct|floatformat:1 }}% worse</div>
+                    {% else %}
+                        <div class="metric-delta delta-positive">▲ {{ freight_analytics.lbs_delta_pct|floatformat:1 }}% better</div>
+                    {% endif %}
+                </div>
+                <div class="freight-metric">
+                    <div class="metric-label">¢ / LB</div>
+                    <div class="metric-label-sub">Monthly Avg (hist.)</div>
+                    <div class="metric-value">{{ freight_analytics.hist_avg_cost_per_lb|floatformat:2 }}¢/lb</div>
+                    <div class="metric-label-sub">YTD Monthly Avg (2 mo.)</div>
+                    <div class="metric-value-ytd">{{ freight_analytics.ytd_cost_per_lb|floatformat:2 }}¢/lb</div>
+                    <div class="metric-total">total: {{ freight_analytics.ytd_cost_per_lb|floatformat:2 }}¢/lb</div>
+                    {% if freight_analytics.cost_per_lb_delta_pct < 0 %}
+                        <div class="metric-delta delta-negative">▼ {{ freight_analytics.cost_per_lb_delta_pct|floatformat:1 }}% worse</div>
+                    {% else %}
+                        <div class="metric-delta delta-positive">▲ {{ freight_analytics.cost_per_lb_delta_pct|floatformat:1 }}% better</div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="freight-source">Source: AMJK Frt cost breakdown by plants.xlsx - SW row.</div>
+        </div>
+    </article>
+    {% endif %}
+
+    {% if carrier_usage %}
+    <article class="panel presentation-card presentation-card--carrier">
+        <div class="presentation-card-header">
+            <span class="card-header-icon">🚚</span>
+            <h3>YTD Carrier Usage</h3>
+            <span class="card-header-badge">AMJK · SW · by load count</span>
+        </div>
+        <div class="presentation-card-body carrier-body">
+            <canvas id="carrierChart" style="max-height: 300px;"></canvas>
+        </div>
+        <script>
+            (function() {
+                const allData = {{ carrier_usage.carrier_percentages|safe }};
+                const COLORS = [
+                    '#1f4993', '#E69F00', '#56B4E9', '#2ecc71',
+                    '#e74c3c', '#9b59b6', '#95a5a6', '#b8e04a',
+                    '#00CED1', '#8B4513', '#1f77b4', '#d62728'
+                ];
+                const entries = Object.entries(allData).sort((a, b) => b[1] - a[1]);
+                const allLabels = entries.map(e => e[0]);
+                const allValues = entries.map(e => e[1]);
+
+                const ctx = document.getElementById('carrierChart').getContext('2d');
+                Chart.register(ChartDataLabels);
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: allLabels,
+                        datasets: [{
+                            data: allValues,
+                            backgroundColor: COLORS,
+                            borderWidth: 1,
+                            borderColor: '#fff',
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            datalabels: {
+                                display: function(ctx) {
+                                    return ctx.dataset.data[ctx.dataIndex] >= 1;
+                                },
+                                color: '#fff',
+                                font: { weight: 'bold', size: 12 },
+                                formatter: function(value) {
+                                    return value.toFixed(1) + '%';
+                                }
+                            },
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 12,
+                                    font: { size: 11 },
+                                    usePointStyle: true,
+                                    pointStyleWidth: 10,
+                                    generateLabels: function(chart) {
+                                        const ds = chart.data.datasets[0];
+                                        return chart.data.labels.map((label, i) => ({
+                                            text: label + '  ' + ds.data[i].toFixed(ds.data[i] < 1 ? 3 : 1) + '%',
+                                            fillStyle: ds.backgroundColor[i],
+                                            strokeStyle: ds.backgroundColor[i],
+                                            pointStyle: 'rect',
+                                            index: i,
+                                        }));
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(ctx) {
+                                        return ' ' + ctx.label + ': ' + ctx.parsed.toFixed(2) + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            })();
+        </script>
+    </article>
+    {% endif %}
+</section>
+
+<section class="presentation-grid presentation-grid--full">
+    <article class="panel presentation-card presentation-card--cpb">
+        <div class="presentation-card-header">
+            <span class="card-header-icon">📊</span>
+            <h3>Freight ¢/lb by Product Code</h3>
+            <span class="card-header-badge">AMJK · SW · YTD</span>
+        </div>
+        <div class="presentation-card-body">
+            <div id="cpbChart" style="height: 620px;"></div>
+            <p class="cpb-source-note">
+                Source: Warship database · AMJK · SW · YTD {{ card.report_date|date:"Y" }}. Top 50 products by shipped weight. Each box = product code. Sorted by median ¢/lb (low to high).
+            </p>
+        </div>
+        <script>
+            (function() {
+                fetch('/presentation/api/freight-cpb-boxplot/')
+                    .then(r => r.json())
+                    .then(function(d) {
+                        const palette = [
+                            '#4C78A8', '#F58518', '#54A24B', '#E45756', '#B279A2', '#72B7B2', '#EECA3B', '#FF9DA6',
+                            '#9D755D', '#BAB0AC', '#6C5CE7', '#00B894', '#0984E3', '#E17055', '#A29BFE', '#00CEC9'
+                        ];
+                        const traces = d.traces.map(function(trace, index) {
+                            return {
+                                ...trace,
+                                marker: {
+                                    color: palette[index % palette.length],
+                                    outliercolor: palette[index % palette.length],
+                                    size: 5,
+                                },
+                                line: {
+                                    color: palette[index % palette.length],
+                                    width: 1.5,
+                                },
+                                fillcolor: palette[index % palette.length] + '33',
+                            };
+                        });
+
+                        Plotly.newPlot('cpbChart', traces, {
+                            margin: { l: 64, r: 24, t: 18, b: 160 },
+                            paper_bgcolor: '#ffffff',
+                            plot_bgcolor: '#ffffff',
+                            showlegend: false,
+                            xaxis: {
+                                title: { text: 'Product Code', font: { size: 13 } },
+                                tickangle: -45,
+                                automargin: true,
+                            },
+                            yaxis: {
+                                title: { text: '¢ / lb', font: { size: 13 } },
+                                gridcolor: 'rgba(23, 39, 63, 0.08)',
+                                zeroline: false,
+                            },
+                        }, {
+                            responsive: true,
+                            displayModeBar: false,
+                        });
+                    })
+                    .catch(function() {
+                        document.getElementById('cpbChart').insertAdjacentHTML(
+                            'beforeend',
+                            '<p style="color:#c00;text-align:center">Could not load freight data</p>'
+                        );
+                    });
+            })();
+        </script>
+    </article>
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,8 @@
+# CFP v2 Django cron jobs
+# Install with: crontab -e
+
+# Scrape NOAA maps daily at 06:00 into Django static assets
+0 6 * * * /home/tony/cfp-v2/scripts/scrape_noaa_maps.sh >> /tmp/cfp_noaa_scrape.log 2>&1
+
+# Existing Warship gas scrape (reference)
+30 7 * * * cd /home/tony/cfp/warship-v2 && .venv/bin/python scripts/scrape_gas_prices.py >> /tmp/gas_scrape.log 2>&1

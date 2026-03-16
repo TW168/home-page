@@ -1,0 +1,10 @@
+[project]
+name = "cfp-v2"
+version = "0.1.0"
+description = "CFP v2 Django website with dashboard home and module placeholders"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+	"django>=5.2.0",
+	"mysql-connector-python>=9.6.0",
+]

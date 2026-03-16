@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CFP Warehouse &amp; Shipping</title>
+    <link rel="stylesheet" href="{% static 'css/site.css' %}" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <h1 class="brand">CFP Warehouse &amp; Shipping</h1>
+            {% if nav_items %}
+            <nav class="top-nav" aria-label="Main sections">
+                <ul>
+                    {% for item in nav_items %}
+                    <li><a href="{{ item.href }}">{{ item.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </header>
+
+    <main class="container main-shell">{% block content %}{% endblock %}</main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>CFP Warehouse &amp; Shipping</p>
+        </div>
+    </footer>
+</body>
+</html>
