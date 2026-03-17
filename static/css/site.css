@@ -185,6 +185,31 @@ body {
     text-decoration: underline;
 }
 
+.weather-meta-stack {
+    margin-top: 0.45rem; /* gap above block */
+}
+
+.weather-note-line {
+    margin: 0;
+    font-size: 0.6rem;
+    color: var(--muted);
+    line-height: 1.1;
+}
+
+.weather-source-link {
+    display: block;
+    margin: 0;
+    color: var(--accent);
+    font-size: 0.6rem;
+    font-weight: 500;
+    line-height: 1.1;
+    text-decoration: none;
+}
+
+.weather-source-link:hover {
+    text-decoration: underline;
+}
+
 .muted-text {
     color: var(--muted);
     margin-top: 0.3rem;

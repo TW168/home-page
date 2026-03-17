@@ -50,12 +50,14 @@ def _build_gas_chart_data(limit: int = 120):
 
         labels = label_set
         fuel_types = sorted({r["fuel_type"] for r in rows})
-        line_colors = [
-            "#0072B2",
-            "#D55E00",
-            "#009E73",
-            "#CC79A7",
-            "#E69F00",
+        fuel_colors = {
+            "Regular": "#0072B2",
+            "Mid-Grade": "#E69F00",
+            "Premium": "#009E73",
+            "Diesel": "#CC79A7",
+            "E85": "#D55E00",
+        }
+        fallback_colors = [
             "#56B4E9",
             "#F0E442",
             "#000000",
@@ -72,7 +74,7 @@ def _build_gas_chart_data(limit: int = 120):
         ]
 
         for idx, fuel_type in enumerate(fuel_types):
-            color = line_colors[idx % len(line_colors)]
+            color = fuel_colors.get(fuel_type, fallback_colors[idx % len(fallback_colors)])
             values = []
             for label in labels:
                 values.append(fuel_by_label[label].get(fuel_type))

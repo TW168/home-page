@@ -13,8 +13,6 @@
             <span class="badge">Daily Scrape</span>
         </header>
         <img src="{{ panel.image_url }}" alt="{{ panel.title }}" class="map-image" loading="lazy" />
-        <p>{{ panel.note }}</p>
-        <a href="{{ panel.source_url }}" class="source-link" target="_blank" rel="noreferrer">Source: {{ panel.source_label }}</a>
     </article>
     {% endfor %}
 </section>
@@ -25,7 +23,6 @@
             <h3>{{ gas_scrape.title }}</h3>
             <span class="badge">{{ gas_scrape.status }}</span>
         </header>
-        <p>{{ gas_scrape.note }}</p>
         <div class="chart-wrap">
             <canvas id="gas-price-chart" aria-label="Gas price trends" role="img"></canvas>
         </div>
